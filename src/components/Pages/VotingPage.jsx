@@ -1,13 +1,13 @@
 import React, {useEffect, useState  } from 'react'
 import { FaStar } from 'react-icons/fa';
 import Select from 'react-select';
-import dish1 from '../../../public/dish1.png'
-import dish2 from '../../../public/dish2.png'
-import dish3 from '../../../public/dish3.png'
-import dish4 from '../../../public/dish4.png'
 
 import {useNavigate} from "react-router-dom";
 import { useLocation } from 'react-router-dom';
+
+import axios from 'axios';
+
+
 
 const VotingPage = () => {
 
@@ -15,34 +15,49 @@ const VotingPage = () => {
   const location = useLocation();
   const { chef } = location.state || { chef: '' };
 
+  
 
+  const [dishes, setDishes] = useState([])
 
-  const dishes = [
-    {
-      photo: dish1,
-      name: 'Plato de los Momitos',
-      authors: 'Los Momitos'
+  // const dishes = [
+  //   {
+  //     photo: dish1,
+  //     name: 'Plato de los Momitos',
+  //     authors: 'Los Momitos'
       
-    },
-    {
-      photo: dish2,
-      name: 'Plato de Marina',
-      authors: 'Marina'
+  //   },
+  //   {
+  //     photo: dish2,
+  //     name: 'Plato de Marina',
+  //     authors: 'Marina'
       
-    },
-    {
-      photo: dish3,
-      name: 'Plato de Alba',
-      authors: 'Alba'      
-    },
-    {
-      photo: dish4,
-      name: 'Plato de Carlos',
-      authors: 'Carlos'
+  //   },
+  //   {
+  //     photo: dish3,
+  //     name: 'Plato de Alba',
+  //     authors: 'Alba'      
+  //   },
+  //   {
+  //     photo: dish4,
+  //     name: 'Plato de Carlos',
+  //     authors: 'Carlos'
       
-    }
-  ]
+  //   }
+  // ]
 
+  useEffect(() => {
+  
+    axios.get('http://localhost:5000/dishes/dishes')
+    .then(response => {
+      console.log(response.data.data)
+      setDishes(response.data.data)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+  }, [])
+  
 
   const options = [
 
@@ -155,7 +170,7 @@ const VotingPage = () => {
             </div>
             <div className='flex flex-col items-center justify-center'>
               <h3>{dish.name}</h3>
-              <p>{dish.authors}</p>
+              <p>{dish.chef}</p>
               
             </div>
             <div className='flex items-center justify-center'>
