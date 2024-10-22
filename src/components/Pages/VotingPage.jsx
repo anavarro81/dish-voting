@@ -179,7 +179,7 @@ const VotingPage = () => {
                 name={dish.name}
                 options={currentOptions} 
                 onChange={handleVote}
-                isDisabled={ chef === dish.authors ? true : false } 
+                isDisabled={ chef === dish.chef ? true : false } 
                 />
             </div>
           </div>

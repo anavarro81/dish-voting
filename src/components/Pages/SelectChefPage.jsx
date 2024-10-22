@@ -1,9 +1,12 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SelectChefPage = () => {
 
     const navigate = useNavigate()
+
+    const [dishes, setDishes] = useState([])
 
     const chefs = [
         {
@@ -21,6 +24,20 @@ const SelectChefPage = () => {
     ]
 
     const [chef, setChef] = useState('')
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/dishes/dishes')
+        .then(response => {
+            console.log(response.data.data)
+            setDishes(response.data.data)
+        })
+        .catch(error => {   
+            console.log(error)
+            alert(`Error al cargar los datos ${error}`)
+        })
+    
+    }, [])
+    
 
     const handleChange = (e) => {
         setChef(e.target.value)
@@ -47,9 +64,9 @@ const SelectChefPage = () => {
                         className='px-4 py-2 '
                         onChange={handleChange}>
 
-                        {chefs.map((chef, index) => {
+                        {dishes.map((dish, index) => {
                             return (
-                                <option key={index} value={chef.name} >{chef.name}</option>
+                                <option key={index} value={dish.chef} >{dish.chef}</option>
                             )
                         })}                        
                     </select>
