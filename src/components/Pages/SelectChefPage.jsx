@@ -8,21 +8,6 @@ const SelectChefPage = () => {
 
     const [dishes, setDishes] = useState([])
 
-    const chefs = [
-        {
-            name: 'Alba',
-        },
-        {
-            name: 'Carlos',
-        },
-        {
-            name: 'Marina',
-        },
-        {
-            name: 'Los Momitos',
-        }
-    ]
-
     const [chef, setChef] = useState('')
 
     useEffect(() => {
@@ -65,16 +50,21 @@ const SelectChefPage = () => {
                         onChange={handleChange}>
 
                         {dishes.map((dish, index) => {
-                            return (
-                                <option key={index} value={dish.chef} >{dish.chef}</option>
-                            )
+                            
+                            if (index === 0) {
+                                return <option key={index} value="" > Selecciona un Chef </option>
+                            } else {
+                                return <option key={index} value={dish.chef} >{dish.chef}</option>    
+                            }                            
+                            
                         })}                        
                     </select>
 
                     <button 
                         type='submit'
                         oncClick={handleSubmit}
-                        className='flex  w-full justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+                        disabled={chef === '' ? true : false}
+                        className='flex  w-full justify-center disabled:bg-gray-400 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
                     
                         Seleccionar Chef    
                     </button>

@@ -27,9 +27,13 @@ const VotingPage = () => {
   
     axios.get('http://localhost:5000/dishes/dishes')
     .then(response => {
-      console.log('dishes ', response.data.data)
-      setDishes(response.data.data)      
-      generateOptions(response.data.data.length)
+      console.log('>> dishes ', response.data.data)
+      
+      // Filtrar los platos que no son del chef para que no pueda votar por sus propios platos
+      const filteredDishes = response.data.data.filter(dish => dish.chef != chef)
+      
+      setDishes(filteredDishes)      
+      generateOptions(filteredDishes.length)
     })
     .catch(error => {
       console.log(error)
@@ -39,40 +43,16 @@ const VotingPage = () => {
 
   
   
-  const generateStarts = (count) => {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {
-          Array.from({ length: count }, (_, index) => (
-            <FaStar key={index} style={{ marginRight: '8px' }} className='text-yellow-500' />
-          ))}
-        
-      </div>
-    );
-  }
 
   const generateOptions = (num) => {    
         
-    const options = []
-    
-    for (let i = 0; i < num; i++) {
-      
-      options.push({ value: i+1, label: ( <div className='flex gap-2 items-center justify-center'> {i+1} <FaStar key={i} style={{ marginRight: '8px' }} className='text-yellow-500' /> </div>)  })            
-      
+    const options = []    
+    for (let i = 0; i < num; i++) {      
+      options.push({ value: i+1, label: ( <div className='flex gap-2 items-center justify-center'> {i+1} <FaStar key={i} style={{ marginRight: '8px' }} className='text-yellow-500' /> </div>)  })                  
     }
 
     setOptions(options)
-    
-    
-    
-  
-    
-
   }
-
-  
-
-  const [currentOptions, setcurrentOptions] = useState([])
 
   const votaciones = []
 
