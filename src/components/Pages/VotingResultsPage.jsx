@@ -79,7 +79,7 @@ const VotingResultsPage = () => {
                 <td className='p-4 border border-gray-300 '> 
                   {/* {index + 1}  */}
 
-                  {prices[index] ? <img src={prices[index]} className="h-10 mr-2" alt="foto del plato" /> : index + 1}
+                  {prices[index] ? <img src={prices[index]} className="h-12 mr-2" alt="foto del plato" /> : <span className='text-2xl'> {index + 1} </span>}
                   {/* <img src={fristPrice} className="h-10 mr-2" alt="foto del plato" /> */}
                 </td>
                 
@@ -89,7 +89,7 @@ const VotingResultsPage = () => {
                 </td>
 
                 <td className='p-4 border-gray-300'> 
-                  {dish.votes} 
+                  <span className='text-2xl '> {dish.votes} </span>
                 </td>
               </tr>            
 )
