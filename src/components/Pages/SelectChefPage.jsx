@@ -41,13 +41,13 @@ const SelectChefPage = () => {
 
     const handleChange = (e) => {
         setChef(e.target.value)
-        console.log(e.target.value);
+        console.log('selected chef ', e.target.value);
         
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(chef)
+        console.log('selected chef', chef);
         navigate(`/voting-page`, { state: { chef } })
     }
 

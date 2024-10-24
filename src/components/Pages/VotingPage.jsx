@@ -11,19 +11,25 @@ import axios from 'axios';
 const VotingPage = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
   const { chef } = location.state || { chef: '' };
   const [options, setOptions] = useState([])
 
   const [dishes, setDishes] = useState([])
+
+  console.log('location.state = ', location.state);
+  
+  console.log('chef = ', chef);
+  
 
 
   useEffect(() => {
   
     axios.get('http://localhost:5000/dishes/dishes')
     .then(response => {
-      console.log(response.data.data)
+      console.log('dishes ', response.data.data)
       setDishes(response.data.data)      
-      generateOptions(dishes.length)
+      generateOptions(response.data.data.length)
     })
     .catch(error => {
       console.log(error)
@@ -45,17 +51,14 @@ const VotingPage = () => {
     );
   }
 
-  const generateOptions = (num) => {
-
-    console.log('Estoy en generateOptions');
-    
+  const generateOptions = (num) => {    
+        
     const options = []
     
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < num; i++) {
       
-      options.push({ value: i+1, label: ( <div className='flex gap-2 items-center justify-center'> {i+1} <FaStar key={i} style={{ marginRight: '8px' }} className='text-yellow-500' /> </div>)  })      
+      options.push({ value: i+1, label: ( <div className='flex gap-2 items-center justify-center'> {i+1} <FaStar key={i} style={{ marginRight: '8px' }} className='text-yellow-500' /> </div>)  })            
       
-      console.log('options = ', options);
     }
 
     setOptions(options)
@@ -67,30 +70,7 @@ const VotingPage = () => {
 
   }
 
-  // const options = [
-
-  //   {
-  //     value: '1',
-  //     label: 1,
-       
-      
-      
-      
-  //   },
-  //   {
-  //     value: '2',
-  //     label: generateStarts(2)
-      
-  //   },
-  //   {
-  //     value: '3',
-  //     label: generateStarts(3)
-  //   },
-  //   {
-  //     value: '4',            
-  //     label: generateStarts(4)
-  //   },
-  // ];
+  
 
   const [currentOptions, setcurrentOptions] = useState([])
 
