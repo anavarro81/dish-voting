@@ -8,118 +8,116 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 
-
 const VotingPage = () => {
 
   const navigate = useNavigate();
-  const location = useLocation();
   const { chef } = location.state || { chef: '' };
-
-  
+  const [options, setOptions] = useState([])
 
   const [dishes, setDishes] = useState([])
 
-  // const dishes = [
-  //   {
-  //     photo: dish1,
-  //     name: 'Plato de los Momitos',
-  //     authors: 'Los Momitos'
-      
-  //   },
-  //   {
-  //     photo: dish2,
-  //     name: 'Plato de Marina',
-  //     authors: 'Marina'
-      
-  //   },
-  //   {
-  //     photo: dish3,
-  //     name: 'Plato de Alba',
-  //     authors: 'Alba'      
-  //   },
-  //   {
-  //     photo: dish4,
-  //     name: 'Plato de Carlos',
-  //     authors: 'Carlos'
-      
-  //   }
-  // ]
 
   useEffect(() => {
   
     axios.get('http://localhost:5000/dishes/dishes')
     .then(response => {
       console.log(response.data.data)
-      setDishes(response.data.data)
+      setDishes(response.data.data)      
+      generateOptions(dishes.length)
     })
     .catch(error => {
       console.log(error)
     })
 
   }, [])
+
   
+  
+  const generateStarts = (count) => {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {
+          Array.from({ length: count }, (_, index) => (
+            <FaStar key={index} style={{ marginRight: '8px' }} className='text-yellow-500' />
+          ))}
+        
+      </div>
+    );
+  }
 
-  const options = [
+  const generateOptions = (num) => {
 
-    {
-      value: '1',
-      label: (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <FaStar style={{ marginRight: '8px' }} className='text-yellow-500'/>
-        </div>
+    console.log('Estoy en generateOptions');
+    
+    const options = []
+    
+    for (let i = 0; i < 5; i++) {
+      
+      options.push({ value: i+1, label: ( <div className='flex gap-2 items-center justify-center'> {i+1} <FaStar key={i} style={{ marginRight: '8px' }} className='text-yellow-500' /> </div>)  })      
+      
+      console.log('options = ', options);
+    }
+
+    setOptions(options)
+    
+    
+    
+  
+    
+
+  }
+
+  // const options = [
+
+  //   {
+  //     value: '1',
+  //     label: 1,
        
-      ),
       
       
-    },
-    {
-      value: '2',
-      label: (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <FaStar style={{ marginRight: '8px' }} className='text-yellow-500'/>
-          <FaStar style={{ marginRight: '8px' }} className='text-yellow-500'/>
-        </div>
-      ),
       
-    },
-    {
-      value: '3',
-      label: (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <FaStar style={{ marginRight: '8px' }} className='text-yellow-500'/>
-          <FaStar style={{ marginRight: '8px' }} className='text-yellow-500'/>
-          <FaStar style={{ marginRight: '8px' }} className='text-yellow-500'/>
-        </div>
-      ),
-    },
-    {
-      value: '4',
-      label: (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <FaStar style={{ marginRight: '8px' }} className='text-yellow-500'/>
-          <FaStar style={{ marginRight: '8px' }} className='text-yellow-500'/>
-          <FaStar style={{ marginRight: '8px' }} className='text-yellow-500'/>
-          <FaStar style={{ marginRight: '8px' }} className='text-yellow-500'/>
-        </div>
-      ),
-    },
-  ];
+  //   },
+  //   {
+  //     value: '2',
+  //     label: generateStarts(2)
+      
+  //   },
+  //   {
+  //     value: '3',
+  //     label: generateStarts(3)
+  //   },
+  //   {
+  //     value: '4',            
+  //     label: generateStarts(4)
+  //   },
+  // ];
 
   const [currentOptions, setcurrentOptions] = useState([])
 
   const votaciones = []
-  
 
-  const handleVote = (selectedOption, actionMeta) => {
+  const handleVote = (selectedOption, name, inputId ) => {
 
     // Validar que no se repita la votación. 
-    const { name } = actionMeta;
+    // const { name } = actionMeta;
+
+    // console.log('actionMeta ', actionMeta);
+    console.log('inputId ', inputId);
+    
+
+    const dish_photo = dishes.find(dish => dish._id === inputId).photo
+
+    console.log('foto = ', dish_photo);
+
     const foundtVoting = votaciones.find(vote => vote.name === name)
+
+    
+    
     
     if (foundtVoting) {
       foundtVoting.votes = selectedOption.value
     } else {
-      votaciones.push({ name: name, votes: selectedOption.value })
+      votaciones.push({ name: name,  photo: dish_photo, votes: selectedOption.value })
     }
     
     
@@ -128,7 +126,11 @@ const VotingPage = () => {
   const handleVoting = (e) => {
     e.preventDefault()
 
-    if (votaciones.length != dishes.length-1) {
+    console.log('votaciones.length = ', votaciones.length);
+    console.log('dishes.length = ', dishes.length);
+    
+    
+    if (votaciones.length != dishes.length) {
       alert('Debes votar por todos los platos')
       return
       
@@ -151,10 +153,7 @@ const VotingPage = () => {
 
 }
 
-  useEffect(() => {
-    setcurrentOptions(options)
-  }, [])
-  
+
 
   return (
     <form 
@@ -175,10 +174,10 @@ const VotingPage = () => {
             </div>
             <div className='flex items-center justify-center'>
               <Select 
-                placeholder="Vota"                
+                inputId={dish._id}                
                 name={dish.name}
-                options={currentOptions} 
-                onChange={handleVote}
+                options={options} 
+                onChange={(selectedOption) => handleVote(selectedOption, dish.name, dish._id)}
                 isDisabled={ chef === dish.chef ? true : false } 
                 />
             </div>
