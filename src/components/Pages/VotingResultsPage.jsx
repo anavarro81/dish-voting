@@ -1,59 +1,62 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { useLocation } from 'react-router-dom';
 import {fristPrice,  secondPrice,   thirdPrice } from '../../assets/images/images'
-
+import axios from 'axios';
 
 const VotingResultsPage = () => {
     
   const location = useLocation();
-    const { votaciones } = location.state || { votaciones: [] };
+    
+    const [votaciones, setVotaciones] = useState([])
+
+    const [dishes, setDishes] = useState([])
 
 
   const prices = [fristPrice, secondPrice, thirdPrice]
 
-// TODO: Cuando lleguen todos los votos, ordenarlo y mostrarlo.     
-// Ordena los platos en funcion del numero de votos
-    // votaciones.sort((a, b) => {
-    //     if (a.votes > b.votes) {
-    //         return -1;
-    //     }
+  const getVotes = async () => {
+    return await axios.get('http://localhost:5000/vote/count-votes');
+  };
 
-    //     if (a.votes < b.votes) {
-    //         return 1;
-    //     }
+  const getDishes = async () => {
+    return await axios.get('http://localhost:5000/dishes/dishes');
+  };
 
-    //     return 0;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const votesResponse = await getVotes();
+        const dishesResponse = await getDishes();
 
+        const votes = votesResponse.data.votesResult;
+        const dishes = dishesResponse.data.data;
 
-    // })
+        console.log('votes = ', votes);
+        console.log('>> dishes ', dishes);
 
+        const votaciones = votes.map((vote, index) => {
+          
+          console.log('vote._id ', vote.dish_id);
+          
+          return {
 
-      // const dishes = [
-  //   {
-  //     photo: dish1,
-  //     name: 'Plato de los Momitos',
-  //     authors: 'Los Momitos'
-      
-  //   },
-  //   {
-  //     photo: dish2,
-  //     name: 'Plato de Marina',
-  //     authors: 'Marina'
-      
-  //   },
-  //   {
-  //     photo: dish3,
-  //     name: 'Plato de Alba',
-  //     authors: 'Alba'      
-  //   },
-  //   {
-  //     photo: dish4,
-  //     name: 'Plato de Carlos',
-  //     authors: 'Carlos'
-      
-  //   }
-  // ]
+            photo: dishes.find(dish => String(dish._id) === String(vote.dish_id)).photo,
+            chef: dishes.find(dish => String(dish._id) === String(vote.dish_id)).chef,
+            name: dishes.find(dish => String(dish._id) === String(vote.dish_id)).name,
+            rating: vote.rating
+          }
+        })
 
+        
+        setVotaciones(votaciones);  
+
+      } catch (error) {
+        console.error('Error fetching data', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
     
 
@@ -83,13 +86,16 @@ const VotingResultsPage = () => {
                   {/* <img src={fristPrice} className="h-10 mr-2" alt="foto del plato" /> */}
                 </td>
                 
-                <td className='p-4 border-gray-300 flex items-center'>
+                <td className='p-4 border-gray-300 flex items-center' >
                   <img src={dish.photo} className="h-16 mr-2" alt="foto del plato" />
-                  {dish.name}                
+                  <div className='flex flex-col'> 
+                  <span> {dish.name} </span>     
+                  <span className='text-gray-500'> {dish.chef} </span>          
+                  </div>
                 </td>
 
                 <td className='p-4 border-gray-300'> 
-                  <span className='text-2xl '> {dish.votes} </span>
+                  <span className='text-2xl '> {dish.rating} </span>
                 </td>
               </tr>            
 )

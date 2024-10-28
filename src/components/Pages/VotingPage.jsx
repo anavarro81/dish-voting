@@ -54,7 +54,9 @@ const VotingPage = () => {
     setOptions(options)
   }
 
-  const votaciones = []
+  const votes = []
+
+  
 
   const handleVote = (selectedOption, name, inputId ) => {
 
@@ -69,7 +71,7 @@ const VotingPage = () => {
 
     console.log('foto = ', dish_photo);
 
-    const foundtVoting = votaciones.find(vote => vote.name === name)
+    const foundtVoting = votes.find(vote => vote.name === name)
 
     
     
@@ -77,20 +79,46 @@ const VotingPage = () => {
     if (foundtVoting) {
       foundtVoting.votes = selectedOption.value
     } else {
-      votaciones.push({ name: name,  photo: dish_photo, votes: selectedOption.value })
+      votes.push({ dish_id: inputId, rating: selectedOption.value })
     }
     
     
   };
 
-  const handleVoting = (e) => {
+  const newVote = async (voto) => {
+
+
+    try {
+      
+      const resp = await axios.post('http://localhost:5000/vote/new-vote', voto)  
+
+      if (resp.status === 201) {
+        alert('Votación realizada con éxito')
+        navigate(`/`)
+      }
+
+
+    } catch (error) {
+      console.log('error = ', error.response.data.message);  
+      alert(`${error.response.data.message}`)      
+      navigate(`/`)
+    }
+    
+
+    
+    
+  }
+
+  
+
+  const handleVoting = async (e) => {
     e.preventDefault()
 
-    console.log('votaciones.length = ', votaciones.length);
+    console.log('votes.length = ', votes.length);
     console.log('dishes.length = ', dishes.length);
     
     
-    if (votaciones.length != dishes.length) {
+    if (votes.length != dishes.length) {
       alert('Debes votar por todos los platos')
       return
       
@@ -99,17 +127,30 @@ const VotingPage = () => {
     // Validar que no se repita la votación
     let votacionesAux = []
 
-    for (let i = 0; i < votaciones.length; i++) {      
-      let repeatedVoting = votacionesAux.find(vote => vote === votaciones[i].votes)       
+    for (let i = 0; i < votes.length; i++) {      
+      let repeatedVoting = votacionesAux.find(vote => vote === votes[i].votes)       
       // Si se repite la votación
       if (repeatedVoting) {
         alert('No puedes votar dos veces por la misma cantidad de estrellas')
         return
       } else {        
-        votacionesAux.push(votaciones[i].votes) 
+        votacionesAux.push(votes[i].votes) 
       }
   }
-  navigate(`/voting-results`, { state: { votaciones } })
+  
+
+  // Se crea el objeto voto con las votaciones y el chef que votó
+  const voto = {chef, votes}
+
+  await newVote(voto)
+
+  
+
+
+
+  
+
+  
 
 }
 

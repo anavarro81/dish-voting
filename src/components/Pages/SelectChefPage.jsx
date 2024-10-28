@@ -10,29 +10,73 @@ const SelectChefPage = () => {
 
     const [chef, setChef] = useState('')
 
-    useEffect(() => {
-        axios.get('http://localhost:5000/dishes/dishes')
-        .then(response => {
-            console.log(response.data.data)
-            setDishes(response.data.data)
-        })
-        .catch(error => {   
+    const [chefsShowed, setChefsShowed] = useState([])
+
+
+    const getVotes = async () => {
+        try {
+            return await axios.get('http://localhost:5000/vote/votes')            
+        } catch (error) {
+            console.log(error);
+            alert(`Error al cargar los datos ${error}`)            
+        }    
+    }
+
+    const getDishes = async () => {
+
+        try {
+            return axios.get('http://localhost:5000/dishes/dishes')
+        } catch (error) {
             console.log(error)
             alert(`Error al cargar los datos ${error}`)
-        })
+        }      
+    
+    }
+
+    useEffect(() => {
+
+        const getData = async () => {
+
+            const votesResponse = await getVotes()
+            const dishesResponse = await getDishes()
+
+            
+            const votes = votesResponse.data                // Votos emitidos con el chef que votó
+            const dishes = dishesResponse.data.data         // Platos del consurso    
+
+
+            //Si el chef ya votó, no puede volver a aparecer en el combo para votar
+
+            const chefShowed = []
+
+            for (const dish of dishes) {
+                const chefFounded = votes.find(vote => vote.chef === dish.chef)
+
+                if (!chefFounded) {
+                    chefShowed.push(dish.chef)                    
+                }
+            }            
+            
+            setChefsShowed(chefShowed)
+            
+        
+        }
+
+
+        getData()
     
     }, [])
     
 
     const handleChange = (e) => {
         setChef(e.target.value)
-        console.log('selected chef ', e.target.value);
+        
         
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log('selected chef', chef);
+        
         navigate(`/voting-page`, { state: { chef } })
     }
 
@@ -48,15 +92,9 @@ const SelectChefPage = () => {
                         id="" 
                         className='px-4 py-2 '
                         onChange={handleChange}>
-
-                        {dishes.map((dish, index) => {
-                            
-                            if (index === 0) {
-                                return <option key={index} value="" > Selecciona un Chef </option>
-                            } else {
-                                return <option key={index} value={dish.chef} >{dish.chef}</option>    
-                            }                            
-                            
+                        <option  value="" > Selecciona un Chef </option>
+                        {chefsShowed.map((chef, index) => {                            
+                                return <option key={index} value={chef} >{chef}</option>                                
                         })}                        
                     </select>
 
