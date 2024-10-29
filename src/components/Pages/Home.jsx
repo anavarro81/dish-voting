@@ -46,6 +46,7 @@ const Home = () => {
             console.log('dishes:', response.data)        
         } catch (error) {
             console.log('Error al cargar los platos del concurso', error)           
+            // Si no hay platos cargados, deshabilitamos el botón de votar
             if (error.response.status === 404) {
                 setDisableVote(true)
             }            
@@ -63,6 +64,12 @@ const Home = () => {
         then((response) => {
             console.log('Se puede votar: ', response.data.showResult)
             setShowResults(!response.data.showResult)
+
+            
+            // Si el contador de platos es igual a numero de votos, ya se ha votado por todos los platos
+            if (response.data.showResult) {
+                setDisableVote(true)
+            }
         })
 
         getData()

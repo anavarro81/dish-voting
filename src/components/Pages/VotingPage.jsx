@@ -71,13 +71,16 @@ const VotingPage = () => {
 
     console.log('foto = ', dish_photo);
 
-    const foundtVoting = votes.find(vote => vote.name === name)
+    const foundtVoting = votes.find(vote => vote.dish_id === inputId)
 
+    console.log('votes >> ', votes);
+    
+    console.log('foundtVoting >> ', foundtVoting);
     
     
     
     if (foundtVoting) {
-      foundtVoting.votes = selectedOption.value
+      foundtVoting.rating = selectedOption.value
     } else {
       votes.push({ dish_id: inputId, rating: selectedOption.value })
     }
@@ -127,15 +130,25 @@ const VotingPage = () => {
     // Validar que no se repita la votación
     let votacionesAux = []
 
+    console.log('votes = ', votes);
+    
+
     for (let i = 0; i < votes.length; i++) {      
-      let repeatedVoting = votacionesAux.find(vote => vote === votes[i].votes)       
+
+      console.log('votes[i].votes = ', votes[i].rating);
+      
+
+      let repeatedVoting = votacionesAux.find(vote => vote === votes[i].rating)       
       // Si se repite la votación
       if (repeatedVoting) {
         alert('No puedes votar dos veces por la misma cantidad de estrellas')
         return
       } else {        
-        votacionesAux.push(votes[i].votes) 
+        votacionesAux.push(votes[i].rating) 
       }
+
+
+
   }
   
 
