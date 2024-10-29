@@ -14,8 +14,8 @@ const Modal = ({message, showModal}) => {
 
     const handleCLickOutside = (e) => {
 
-        console.log('>> modal Current: ', modalRef.current);
-        console.log('>> target: ', e.target);
+        
+        
         
         if(modalRef.current && !modalRef.current.contains(e.target)){
             showModal(false)

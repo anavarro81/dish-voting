@@ -99,19 +99,19 @@ const NewChefPage = () => {
 
         const data = new FormData();
 
-        console.log('chef', chef);
+        
         
         
         Object.keys(chef).forEach(key => {
             data.append(key, chef[key]);
           });       
 
-        console.log('data', data);
+        
         
 
         try {
             const res = await axios.post('http://localhost:5000/dishes/new-dish', data)    
-            console.log(res)
+            
 
             
 
@@ -132,7 +132,7 @@ const NewChefPage = () => {
             }
 
         } catch (error) {
-            console.log('>> error', error);            
+            
             console.log(`Error al dar de alta el chef: ${error.response.data.message}`);            
             setShowModal(true)
             

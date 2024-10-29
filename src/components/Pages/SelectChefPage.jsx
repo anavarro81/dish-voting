@@ -40,7 +40,7 @@ const SelectChefPage = () => {
             const votesResponse = await getVotes()
             const dishesResponse = await getDishes()
 
-            console.log('votesResponse', dishesResponse)
+            
 
             
             const votes = votesResponse.data                // Votos emitidos con el chef que votó

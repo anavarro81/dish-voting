@@ -17,9 +17,9 @@ const VotingPage = () => {
 
   const [dishes, setDishes] = useState([])
 
-  console.log('location.state = ', location.state);
   
-  console.log('chef = ', chef);
+  
+  
   
 
 
@@ -27,7 +27,7 @@ const VotingPage = () => {
   
     axios.get('http://localhost:5000/dishes/dishes')
     .then(response => {
-      console.log('>> dishes ', response.data)
+      
       
       // Filtrar los platos que no son del chef para que no pueda votar por sus propios platos
       const filteredDishes = response.data.filter(dish => dish.chef != chef)
@@ -63,19 +63,19 @@ const VotingPage = () => {
     // Validar que no se repita la votación. 
     // const { name } = actionMeta;
 
-    // console.log('actionMeta ', actionMeta);
-    console.log('inputId ', inputId);
+    
+    
     
 
     const dish_photo = dishes.find(dish => dish._id === inputId).photo
 
-    console.log('foto = ', dish_photo);
+    
 
     const foundtVoting = votes.find(vote => vote.dish_id === inputId)
 
-    console.log('votes >> ', votes);
     
-    console.log('foundtVoting >> ', foundtVoting);
+    
+    
     
     
     
@@ -117,8 +117,8 @@ const VotingPage = () => {
   const handleVoting = async (e) => {
     e.preventDefault()
 
-    console.log('votes.length = ', votes.length);
-    console.log('dishes.length = ', dishes.length);
+    
+    
     
     
     if (votes.length != dishes.length) {
@@ -130,12 +130,12 @@ const VotingPage = () => {
     // Validar que no se repita la votación
     let votacionesAux = []
 
-    console.log('votes = ', votes);
+    
     
 
     for (let i = 0; i < votes.length; i++) {      
 
-      console.log('votes[i].votes = ', votes[i].rating);
+      
       
 
       let repeatedVoting = votacionesAux.find(vote => vote === votes[i].rating)       

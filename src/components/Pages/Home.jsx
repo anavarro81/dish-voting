@@ -43,7 +43,7 @@ const Home = () => {
     const getDishes = async () => {
        try {            
             const response = await axios.get('http://localhost:5000/dishes/dishes')    
-            console.log('dishes:', response.data)        
+            
         } catch (error) {
             console.log('Error al cargar los platos del concurso', error)           
             // Si no hay platos cargados, deshabilitamos el botón de votar
@@ -62,7 +62,7 @@ const Home = () => {
         
         axios.get('http://localhost:5000/vote/count-votes-realized').
         then((response) => {
-            console.log('Se puede votar: ', response.data.showResult)
+            
             setShowResults(!response.data.showResult)
 
             

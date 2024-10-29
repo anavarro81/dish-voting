@@ -34,12 +34,12 @@ const VotingResultsPage = () => {
         const votes = votesResponse.data.votesResult;
         const dishes = dishesResponse.data;
 
-        console.log('votes = ', votes);
-        console.log('>> dishes ', dishes);
+        
+        
 
         const votaciones = votes.map((vote, index) => {
           
-          console.log('vote._id ', vote.dish_id);
+          
           
           return {
 
@@ -70,11 +70,11 @@ const VotingResultsPage = () => {
   return (
     <div className='container mx-auto p-4'>
    
-        <div className='flex items-center justify-center mb-4 bg-blue-400'> 
+        <div className='flex items-center justify-center mb-4'> 
           <button onClick={handleBackButton} className='mr-4 flex items-center'>        
             <FaArrowLeft size={25} />
           </button>
-          <h2 className='text-2xl font-bold text-center bg-red-200 flex-1 '>Resultados de la Votación</h2>
+          <h2 className='text-2xl font-bold text-center flex-1 '>Resultados de la Votación</h2>
       </div>
 
       
