@@ -27,10 +27,10 @@ const VotingPage = () => {
   
     axios.get('http://localhost:5000/dishes/dishes')
     .then(response => {
-      console.log('>> dishes ', response.data.data)
+      console.log('>> dishes ', response.data)
       
       // Filtrar los platos que no son del chef para que no pueda votar por sus propios platos
-      const filteredDishes = response.data.data.filter(dish => dish.chef != chef)
+      const filteredDishes = response.data.filter(dish => dish.chef != chef)
       
       setDishes(filteredDishes)      
       generateOptions(filteredDishes.length)

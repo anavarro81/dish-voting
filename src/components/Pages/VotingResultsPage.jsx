@@ -29,7 +29,7 @@ const VotingResultsPage = () => {
         const dishesResponse = await getDishes();
 
         const votes = votesResponse.data.votesResult;
-        const dishes = dishesResponse.data.data;
+        const dishes = dishesResponse.data;
 
         console.log('votes = ', votes);
         console.log('>> dishes ', dishes);

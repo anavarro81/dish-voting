@@ -40,9 +40,11 @@ const SelectChefPage = () => {
             const votesResponse = await getVotes()
             const dishesResponse = await getDishes()
 
+            console.log('votesResponse', dishesResponse)
+
             
             const votes = votesResponse.data                // Votos emitidos con el chef que votó
-            const dishes = dishesResponse.data.data         // Platos del consurso    
+            const dishes = dishesResponse.data         // Platos del consurso    
 
 
             //Si el chef ya votó, no puede volver a aparecer en el combo para votar
@@ -100,7 +102,7 @@ const SelectChefPage = () => {
 
                     <button 
                         type='submit'
-                        oncClick={handleSubmit}
+                        onClick={handleSubmit}
                         disabled={chef === '' ? true : false}
                         className='flex  w-full justify-center disabled:bg-gray-400 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
                     
