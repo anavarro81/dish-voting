@@ -95,8 +95,8 @@ const VotingPage = () => {
 
     try {
       
-      // const resp = await axios.post('http://localhost:5000/vote/new-vote', voto)  
-      const resp = await axiosInstance.post('http://localhost:5000/vote/new-vote', voto)
+      
+      const resp = await axiosInstance.post('vote/new-vote', voto)
 
       if (resp.status === 201) {
         alert('Votación realizada con éxito')
