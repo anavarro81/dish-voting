@@ -44,7 +44,9 @@ const Home = () => {
     const getDishes = async () => {
        try {            
             // const response = await axios.get('http://localhost:5000/dishes/dishes')    
-               const response = await axiosInstance.get('/dishes/dishes')
+            console.log('Base URL:', axiosInstance.defaults.baseURL);
+               
+            const response = await axiosInstance.get('/dishes/dishes')
             
         } catch (error) {
             console.log('Error al cargar los platos del concurso', error)           
