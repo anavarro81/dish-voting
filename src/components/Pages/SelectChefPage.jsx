@@ -27,7 +27,7 @@ const SelectChefPage = () => {
 
         try {
             // return axios.get('http://localhost:5000/dishes/dishes')
-               return axiosInstance.get('http://localhost:5000/dishes/dishes')
+               return axiosInstance.get('/dishes/dishes')
                
         } catch (error) {
             console.log(error)
