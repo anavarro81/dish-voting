@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../../config/axiosConfig';
 
 const SelectChefPage = () => {
 
@@ -15,7 +15,8 @@ const SelectChefPage = () => {
 
     const getVotes = async () => {
         try {
-            return await axios.get('http://localhost:5000/vote/votes')            
+            // return await axios.get('http://localhost:5000/vote/votes')            
+                return axiosInstance.get('/vote/votes')
         } catch (error) {
             console.log(error);
             alert(`Error al cargar los datos ${error}`)            
@@ -25,7 +26,9 @@ const SelectChefPage = () => {
     const getDishes = async () => {
 
         try {
-            return axios.get('http://localhost:5000/dishes/dishes')
+            // return axios.get('http://localhost:5000/dishes/dishes')
+               return axiosInstance.get('http://localhost:5000/dishes/dishes')
+               
         } catch (error) {
             console.log(error)
             alert(`Error al cargar los datos ${error}`)

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { FaUtensils, FaVoteYea, FaChartBar, FaCog } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import pumpkin from '../../assets/images/pumpkin.svg';
-import axios from 'axios';
+
 import axiosInstance from '../../../config/axiosConfig';
 
 const Home = () => {

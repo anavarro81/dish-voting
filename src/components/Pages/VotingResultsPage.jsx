@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import {fristPrice,  secondPrice,   thirdPrice } from '../../assets/images/images'
-import axios from 'axios';
+import axiosInstance from '../../../config/axiosConfig';
 import { FaArrowLeft } from 'react-icons/fa';
 
 const VotingResultsPage = () => {
@@ -18,11 +18,13 @@ const VotingResultsPage = () => {
   const prices = [fristPrice, secondPrice, thirdPrice]
 
   const getVotes = async () => {
-    return await axios.get('http://localhost:5000/vote/count-votes');
+    // return await axios.get('http://localhost:5000/vote/count-votes');
+       return await axiosInstance.get('/vote/count-votes');
   };
 
   const getDishes = async () => {
-    return await axios.get('http://localhost:5000/dishes/dishes');
+    // return await axios.get('http://localhost:5000/dishes/dishes');
+       return await axiosInstance.get('/dishes/dishes');
   };
 
   useEffect(() => {

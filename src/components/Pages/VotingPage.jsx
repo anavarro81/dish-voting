@@ -5,7 +5,8 @@ import Select from 'react-select';
 import {useNavigate} from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
-import axios from 'axios';
+
+import axiosInstance from '../../../config/axiosConfig';
 
 
 const VotingPage = () => {
@@ -25,7 +26,8 @@ const VotingPage = () => {
 
   useEffect(() => {
   
-    axios.get('http://localhost:5000/dishes/dishes')
+    // axios.get('http://localhost:5000/dishes/dishes')
+    axiosInstance.get('/dishes/dishes')
     .then(response => {
       
       
@@ -93,7 +95,8 @@ const VotingPage = () => {
 
     try {
       
-      const resp = await axios.post('http://localhost:5000/vote/new-vote', voto)  
+      // const resp = await axios.post('http://localhost:5000/vote/new-vote', voto)  
+      const resp = await axiosInstance.post('http://localhost:5000/vote/new-vote', voto)
 
       if (resp.status === 201) {
         alert('Votación realizada con éxito')

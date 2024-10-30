@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import axios from 'axios'
-import Modal from '../Modal'
 
+import Modal from '../Modal'
+import axiosInstance from '../../../config/axiosConfig';
 
 
 const NewChefPage = () => {
@@ -110,9 +110,9 @@ const NewChefPage = () => {
         
 
         try {
-            const res = await axios.post('http://localhost:5000/dishes/new-dish', data)    
             
-
+            // const res = await axios.post('http://localhost:5000/dishes/new-dish', data)                
+            const res = await axiosInstance.post('/dishes/new-dish', data)            
             
 
             if (res.status === 201) {                
@@ -155,11 +155,11 @@ const NewChefPage = () => {
 
     
 
-    <main class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+    <main className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
 
         {showModal  && <Modal message={modalState.message} showModal={setShowModal}/>}    
 
-        <h2 class="text-2xl font-bold mb-6"> ALTA DE CHEF </h2>
+        <h2 className="text-2xl font-bold mb-6"> ALTA DE CHEF </h2>
         <form onSubmit={handleSubmit} id='newSitForm'class="space-y-4">
 {/* photo */}            
             <div> 
