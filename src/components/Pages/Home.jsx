@@ -3,6 +3,7 @@ import { FaUtensils, FaVoteYea, FaChartBar, FaCog } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import pumpkin from '../../assets/images/pumpkin.svg';
 import axios from 'axios';
+import axiosInstance from '../../../config/axiosConfig';
 
 const Home = () => {
 
@@ -42,7 +43,8 @@ const Home = () => {
     // Obtenemos los platos del concurso
     const getDishes = async () => {
        try {            
-            const response = await axios.get('http://localhost:5000/dishes/dishes')    
+            // const response = await axios.get('http://localhost:5000/dishes/dishes')    
+               const response = await axiosInstance.get('/dishes/dishes')
             
         } catch (error) {
             console.log('Error al cargar los platos del concurso', error)           
@@ -60,7 +62,8 @@ const Home = () => {
             await getDishes()
         }
         
-        axios.get('http://localhost:5000/vote/count-votes-realized').
+        //axios.get('http://localhost:5000/vote/count-votes-realized').
+        axiosInstance.get('/vote/count-votes-realized').
         then((response) => {
             
             setShowResults(!response.data.showResult)
