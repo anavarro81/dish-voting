@@ -3,7 +3,7 @@ import VotingPage from './components/Pages/VotingPage'
 import VotingResultsPage from './components/Pages/VotingResultsPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './components/Pages/Home'
-import SelectChefPage from './components/Pages/selectChefPage'
+import SelectChefPage from './components/Pages/SelectChefPage'
 import NewChefPage from './components/Pages/NewChefPage'
 
 const App = () => {
