@@ -117,7 +117,8 @@ const NewChefPage = () => {
 
             if (res.status === 201) {                
                 seterrorMessage("Chef dado de alta correctamente")
-                setShowModal(true)
+                // setShowModal(true)
+                alert('Chef dado de alta correctamente')
 
                 setModalState(prevState => ({
                     ...prevState,
@@ -134,7 +135,8 @@ const NewChefPage = () => {
         } catch (error) {
             
             console.log(`Error al dar de alta el chef: ${error.response.data.message}`);            
-            setShowModal(true)
+            // setShowModal(true)
+            alert(error.response.data.message)
             
             setModalState(prevState => ({
                 ...prevState,
